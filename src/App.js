@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './App.css';
+import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Restaurant from "./components/Restaurant/Restaurant";
 import Main from "./layout/main";
 
@@ -9,13 +10,19 @@ function App() {
     {
       path: '/',
       element: <Main/>,
+      errorElement: <ErrorPage/>,
       children:[
-        {
-          path: '/restaurant',
-          element: <Restaurant/>,
-          loader: async ()=> fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=`)
-        }
-      ],
+      {
+        errorElement: <ErrorPage/>,
+        children:[
+          {
+            path: '/restaurant',
+            element: <Restaurant/>,
+            loader: async ()=> fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=`)
+          },
+        ],
+      }
+     ]
     }
   ])
 
